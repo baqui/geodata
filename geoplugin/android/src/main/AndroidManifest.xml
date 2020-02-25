@@ -1,0 +1,11 @@
+<manifest 
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.desmart.geoplugin">
+
+  <application>
+      <service
+          android:permission="android.permission.BIND_JOB_SERVICE"
+          android:name=".GeopluginService"
+          android:exported="true" />
+  </application>
+</manifest>
