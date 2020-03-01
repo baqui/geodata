@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:geodata/ui/styles/ui_helpers.dart';
 import './day.dart';
 import './header.dart';
+import './date_utils.dart';
 
 // Ordering of class parts
 // class className {
@@ -15,6 +15,7 @@ class Calendar extends StatefulWidget {
   final DateTime minDate;
   final DateTime maxDate;
   final DateTime initialDate;
+  final DateTime selectedDate;
   final List<int> disabledDaysOfWeek; //1-7
   final List<DateTime> disabledDays;
   final Function onDateSelected;
@@ -28,6 +29,7 @@ class Calendar extends StatefulWidget {
     this.minDate,
     this.maxDate,
     @required this.initialDate,
+    this.selectedDate,
     this.disabledDaysOfWeek,
     this.disabledDays,
     @required this.onDateSelected,
@@ -41,12 +43,19 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
 
-  DateTime viewStartDate; //first date for currently displayed view
-  int rowsNumber; //different for week and month
+  DateTime viewStartDate; // first date for currently displayed view
+  DateTime periodStartDate; // in week view equals to viewStartDate, in month view equals to first day of a month
+  int rowsNumber; // different for week and month
 
   _CalendarState(DateTime initialDate, String displayPeriod) {
-    this.viewStartDate = initialDate.subtract(Duration(days: initialDate.weekday - 1 )); //days are indexed from 1
-    this.rowsNumber = displayPeriod == 'week' ? 1 : 5;
+    // for week view this is initial date, 
+    // for month view first day of the initial date month
+    DateTime startingDate = displayPeriod == 'week' ? initialDate : DateTime.utc(initialDate.year, initialDate.month, 1);
+    
+    this.viewStartDate = DateUtils.calculateViewStartDate(startingDate);
+    //startingDate.subtract(Duration(days: initialDate.weekday - 1 ));
+    this.periodStartDate = startingDate;
+    this.rowsNumber = displayPeriod == 'week' ? 1 : 6;
   }
 
   @override
@@ -55,9 +64,16 @@ class _CalendarState extends State<Calendar> {
       padding: EdgeInsets.only(left: 10, right: 10),
       child: Column(
         children: <Widget>[
-          Header(month: 'January', year: '2019'),
+          Header(
+            month: widget.monthLabels[periodStartDate.month - 1], 
+            year: DateTime.utc(periodStartDate.year, 1, 1).year.toString(),
+            onPrev: (){ handleViewChange("prev"); },
+            onNext: (){ handleViewChange("next"); }
+          ),
           Row(
-            children: widget.dayLabels.map( (label) => Day(text: label, header: true)).toList()
+            children: widget.dayLabels.map( (label) => 
+              Day(text: label, header: true)
+            ).toList()
           ),
           buildDatesRow()
         ],
@@ -69,9 +85,28 @@ class _CalendarState extends State<Calendar> {
     return Column(
         children: List<Widget>.generate(rowsNumber, (weekIndex) => Row( // 1 or 5 - weeks number
             children: List<Widget>.generate(7, (dayIndex) { // 7 - n days of the week 
-              return Day(text: '01');
+              
+              DateTime date = viewStartDate.add(Duration(days: (weekIndex * 7) + dayIndex));
+              bool isDisabled = date.month != periodStartDate.month;
+              bool selected = DateUtils.isSelected(widget.selectedDate, date);
+              
+              return Day(
+                disabled: isDisabled,
+                selected: selected,
+                text: date.day.toString(),
+                date: date,
+                onDateSelected: widget.onDateSelected
+              );
             })
           )),
       );
+  }
+
+  handleViewChange(String direction) {
+    DateTime nextPeriodStartDate = DateUtils.calculatePeriodStartDate(direction, widget.displayPeriod, viewStartDate, periodStartDate);
+    setState((){
+      viewStartDate = DateUtils.calculateViewStartDate(nextPeriodStartDate);
+      periodStartDate = nextPeriodStartDate;
+    });
   }
 }

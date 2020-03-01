@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geodata/ui/styles/ui_helpers.dart';
 
 class InformationBar extends StatelessWidget {
-  String text;
+  final String text;
   InformationBar({ Key key, this.text })  : super(key: key);
 
   @override

@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:geodata/ui/styles/ui_helpers.dart';
 import 'package:geodata/ui/widgets/calendar/calendar_widget.dart' as custom;
 
-class Calendar extends StatelessWidget {
+class Calendar extends StatefulWidget {
+  @override
+  _CalendarState createState() => _CalendarState();
+}
+
+class _CalendarState extends State<Calendar> {
+  DateTime selectedDate = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,23 +18,17 @@ class Calendar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           UIHelper.verticalSpace(80),
-          custom.Calendar(
+          new custom.Calendar(
             initialDate: DateTime.now(),
-            onDateSelected: (){ print('onDateSelected'); },
+            displayPeriod: "week",
+            selectedDate: selectedDate,
+            onDateSelected: (DateTime date){
+              setState((){
+                selectedDate = date;
+              });
+            },
           ),
           UIHelper.verticalSpace(80),
-          // Container(
-          //   child: CalendarStrip(
-          //   startDate: DateTime.now(),
-          //   endDate: DateTime.now().add(Duration(days: 10)),
-          //   onDateSelected: (){},
-          //   //dateTileBuilder: dateTileBuilder,
-          //   iconColor: UIHelper.hexToColor('#1462f8'),
-          //   //monthNameWidget: _monthNameWidget,
-          //   //markedDates: markedDates,
-          //   containerDecoration: BoxDecoration(color: Colors.black12),
-          // )
-          //),
         ],
       ));
   }

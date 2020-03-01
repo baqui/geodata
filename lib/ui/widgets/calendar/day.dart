@@ -11,10 +11,12 @@ import 'package:geodata/ui/styles/ui_helpers.dart';
 
 class Day extends StatelessWidget {
 
+  final DateTime date;
   final String text;
   final bool disabled;
   final bool selected;
   final bool header;
+  final Function onDateSelected;
 
   Color get backgroundColor {
     if(selected) return UIHelper.hexToColor('#1462f8');
@@ -34,39 +36,48 @@ class Day extends StatelessWidget {
 
   const Day({ 
     Key key,
+    this.date,
     this.text,
     this.disabled = false,
     this.selected = false,
-    this.header = false
+    this.header = false,
+    this.onDateSelected
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-      padding: EdgeInsets.all(4.0),
-      margin: margin,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: this.backgroundColor,
-        boxShadow: selected ? [
-            new BoxShadow(
-              color: Color.fromRGBO(20, 98, 248, 0.4),
-              offset: new Offset(0, 0.2),
-              blurRadius: 8.0,
-            )
-          ]: null,
-      ),
-      child: Container(
-        height: 35.0,
-        alignment: Alignment(0.0, 0.0),
-        child: Text(text, style: TextStyle(
-          fontSize: 16.0,
-          fontWeight: header ? FontWeight.w600 : FontWeight.w500,
-          color: this.textColor
-        ))
+      child: InkWell(
+        onTap: header ? null : (){
+          onDateSelected(date);
+        },
+        customBorder: CircleBorder(),
+        splashColor: Colors.greenAccent,
+        child: Container(
+          padding: EdgeInsets.all(4.0),
+          margin: margin,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: this.backgroundColor,
+            boxShadow: selected ? [
+                new BoxShadow(
+                  color: Color.fromRGBO(20, 98, 248, 0.4),
+                  offset: new Offset(0, 0.2),
+                  blurRadius: 8.0,
+                )
+              ]: null,
+          ),
+          child: Container(
+            height: 35.0,
+            alignment: Alignment(0.0, 0.0),
+            child: Text(text, style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: header ? FontWeight.w600 : FontWeight.w500,
+              color: this.textColor
+            ))
+          )
+        ),
       )
-    )
     );
   }
 }
