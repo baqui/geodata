@@ -14,13 +14,14 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(left: 10, right: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           UIHelper.verticalSpace(80),
           new custom.Calendar(
             initialDate: DateTime.now(),
-            displayPeriod: "week",
+            displayPeriod: "month",
             selectedDate: selectedDate,
             onDateSelected: (DateTime date){
               setState((){

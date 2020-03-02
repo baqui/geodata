@@ -54,7 +54,7 @@ class Day extends StatelessWidget {
         customBorder: CircleBorder(),
         splashColor: Colors.greenAccent,
         child: Container(
-          padding: EdgeInsets.all(4.0),
+          padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
           margin: margin,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -70,11 +70,14 @@ class Day extends StatelessWidget {
           child: Container(
             height: 35.0,
             alignment: Alignment(0.0, 0.0),
-            child: Text(text, style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: header ? FontWeight.w600 : FontWeight.w500,
-              color: this.textColor
-            ))
+            child: Text(
+              text,
+              softWrap: false,
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: header ? FontWeight.w600 : FontWeight.w500,
+                color: this.textColor,
+              ))
           )
         ),
       )
