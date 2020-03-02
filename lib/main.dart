@@ -13,13 +13,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'My habbits',
         theme: ThemeData(
-          primarySwatch: Colors.blueGrey,
-          dialogBackgroundColor: Colors.red,
-          canvasColor: Colors.transparent
-        ),
+            primarySwatch: Colors.blueGrey,
+            dialogBackgroundColor: Colors.red,
+            canvasColor: Colors.transparent),
         initialRoute: 'ui_components',
         onGenerateRoute: Router.generateRoute,
-        debugShowCheckedModeBanner: false
-      );
+        debugShowCheckedModeBanner: false);
   }
 }

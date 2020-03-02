@@ -10,42 +10,35 @@ class ModalBottomSheet extends StatelessWidget {
     return Container(
         height: 300,
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))
-        ),
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15), topRight: Radius.circular(15))),
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.close,
-                    size: 30.0
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.close, size: 30.0),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                  onPressed: (){
-                    Navigator.pop(context);
-                  },
-                ),
-                Text(
-                  'Request details', 
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18.0,
-                    color: UIHelper.hexToColor('#11151d'),
-                    letterSpacing: 0.3
-                  )
-                ),
-                CustomPopupMenuButton()
-              ],
-            ),
-            SizedBox( height: 25.0 ),
-            InformationBar(text: 'Request has been accepted')
-          ],
-        ),
-        )
-      );
+                  Text('Request details',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18.0,
+                          color: UIHelper.hexToColor('#11151d'),
+                          letterSpacing: 0.3)),
+                  CustomPopupMenuButton()
+                ],
+              ),
+              SizedBox(height: 25.0),
+              InformationBar(text: 'Request has been accepted')
+            ],
+          ),
+        ));
   }
 }
