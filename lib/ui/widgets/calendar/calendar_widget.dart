@@ -62,21 +62,28 @@ class _CalendarState extends State<Calendar> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 10, right: 10),
-      child: Column(
-        children: <Widget>[
-          Header(
-            month: widget.monthLabels[periodStartDate.month - 1], 
-            year: DateTime.utc(periodStartDate.year, 1, 1).year.toString(),
-            onPrev: (){ handleViewChange("prev"); },
-            onNext: (){ handleViewChange("next"); }
-          ),
-          Row(
-            children: widget.dayLabels.map( (label) => 
-              Day(text: label, header: true)
-            ).toList()
-          ),
-          buildDatesRow()
-        ],
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          if (details.delta.dx > 0) {
+            print("swipe right");
+          }
+        },
+        child: Column(
+          children: <Widget>[
+            Header(
+              month: widget.monthLabels[periodStartDate.month - 1], 
+              year: DateTime.utc(periodStartDate.year, 1, 1).year.toString(),
+              onPrev: (){ handleViewChange("prev"); },
+              onNext: (){ handleViewChange("next"); }
+            ),
+            Row(
+              children: widget.dayLabels.map( (label) => 
+                Day(text: label, header: true)
+              ).toList()
+            ),
+            buildDatesRow()
+          ],
+        )
       )
     );
   }

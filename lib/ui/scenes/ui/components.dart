@@ -6,7 +6,7 @@ import 'package:geodata/ui/scenes/ui/home.dart';
 import 'package:geodata/ui/scenes/ui/services.dart';
 import 'package:geodata/ui/scenes/ui/calendar.dart';
 import 'package:geodata/ui/scenes/ui/settings.dart';
-
+import 'package:geodata/ui/widgets/custom_bottom_navigation_bar.dart';
 
 class UiComponentsView extends StatefulWidget {
   UiComponentsView({Key key}) : super(key: key);
@@ -16,9 +16,9 @@ class UiComponentsView extends StatefulWidget {
 }
 
 class _UiComponentsViewState extends State<UiComponentsView> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 0;
   final controller = PageController(
-    initialPage: 3,
+    initialPage: 0,
   );
   var scrollDirection = Axis.horizontal;
 
@@ -61,73 +61,13 @@ class _UiComponentsViewState extends State<UiComponentsView> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: BottomNavigationBar(
-            onTap: (int index) { 
+          child: CustomBottomNavigationBar(
+            onTap: (int index) {
               setState(() { _selectedIndex = index;});
               controller.jumpToPage(index);
             },
-            elevation: 0,
-            showUnselectedLabels: true,
-            showSelectedLabels: true,
-            selectedItemColor: UIHelper.hexToColor('#1462f8'),
-            unselectedItemColor: UIHelper.hexToColor('#787993'),
-            backgroundColor: Colors.white,
-            unselectedIconTheme: IconThemeData(
-              color: UIHelper.hexToColor('#787993'),
-              size: 28.0
-            ),
-            selectedIconTheme: IconThemeData(
-              color: UIHelper.hexToColor('#1462f8'),
-              size: 28.0
-            ),
-            unselectedLabelStyle: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: UIHelper.hexToColor('#787993'),
-              fontSize: 15.0
-            ),
-            selectedLabelStyle: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 15.0
-            ),
-            currentIndex: _selectedIndex,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.mail_outline),
-                title: Padding(
-                  padding: EdgeInsets.only(top: 5.0),
-                  child: Text('Messages')
-                ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.donut_large),
-                title: Padding(
-                  padding: EdgeInsets.only(top: 6.0),
-                  child: Text('Home')
-                ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.dashboard),
-                title: Padding(
-                  padding: EdgeInsets.only(top: 6.0),
-                  child: Text('Services')
-                ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_today),
-                title: Padding(
-                  padding: EdgeInsets.only(top: 6.0),
-                  child: Text('Calendar')
-                ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.center_focus_weak),
-                title: Padding(
-                  padding: EdgeInsets.only(top: 6.0),
-                  child: Text('Settings')
-                ),
-              ),
-            ]
-      ),
+            selectedIndex: _selectedIndex
+          )
         ),
       ),
     );
